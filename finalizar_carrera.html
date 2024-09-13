@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+  <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
+  <title>End Race</title>
+  <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <style>
+    /* Styles for the custom modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    .modal button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      border: none;
+      background: #1661b6;
+      color: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="relative flex min-h-screen flex-col bg-white items-center px-8 py-6" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+    <!-- Header with Back and Home Buttons -->
+    <div class="flex justify-end w-full max-w-2xl absolute top-4 right-8">
+      <div class="flex gap-4">
+        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-[#637488] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]" onclick="goBack()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+            <path d="M216.49,127.51l-88-88a8,8,0,0,0-11.32,11.32L196.69,120H56a8,8,0,0,0,0,16H196.69l-79.51,79.51a8,8,0,1,0,11.32,11.32l88-88A8,8,0,0,0,216.49,127.51Z"></path>
+          </svg>
+          <span class="truncate">Volver Atrás</span>
+        </button>
+
+        <button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-[#ff6b6b] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]" onclick="goToHome()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+            <path d="M218.83,105.17l-80-72a16,16,0,0,0-21.66,0l-80,72A8,8,0,0,0,44.83,117.17l7.17-6.45V208a16,16,0,0,0,16,16h32a8,8,0,0,0,8-8V168a8,8,0,0,1,8-8h32a8,8,0,0,1,8,8v48a8,8,0,0,0,8,8h32a16,16,0,0,0,16-16V110.72l7.17,6.45A8,8,0,0,0,218.83,105.17Z"></path>
+          </svg>
+          <span class="truncate">Volver a Inicio</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex flex-col items-center w-full max-w-2xl mt-20">
+      <h2 class="text-[#111418] text-xl font-bold leading-tight tracking-[-0.015em] text-center mb-4">End Race</h2>
+      <h1 class="text-[#111418] text-[24px] font-bold leading-tight tracking-[-0.015em] text-center pb-3">Enter participant number to end race</h1>
+      <div class="flex flex-col items-center gap-4 w-full max-w-md mb-3">
+        <label class="flex flex-col w-full">
+          <input id="participantInput" placeholder="Participant number" class="form-input w-full rounded-xl text-[#111418] focus:outline-0 focus:ring-0 border-none bg-[#f0f2f4] h-16 placeholder:text-[#637488] p-4 text-lg" value="" />
+        </label>
+      </div>
+      <p class="text-[#637488] text-base font-normal text-center mb-3">This will mark the participant as finished</p>
+      <div class="flex flex-col items-center w-full max-w-md gap-3 mb-6">
+        <p class="text-[#111418] text-lg font-medium text-center">Participants Finished</p>
+        <div class="w-full rounded bg-[#dce0e5]">
+          <div id="progressBar" class="h-2 rounded bg-[#111418]" style="width: 0%;"></div>
+        </div>
+        <p id="progressText" class="text-[#637488] text-base font-normal text-center">0 of 0</p>
+      </div>
+      <div class="flex flex-col gap-3 w-full max-w-md">
+        <button onclick="endRaceForParticipant()" class="flex w-full cursor-pointer items-center justify-center rounded-xl h-12 bg-[#f0f2f4] text-[#111418] text-lg font-bold">
+          <span class="truncate">End Race for Participant</span>
+        </button>
+        <button onclick="endRaceForAll()" class="flex w-full cursor-pointer items-center justify-center rounded-xl h-12 bg-[#1661b6] text-white text-lg font-bold">
+          <span class="truncate">End Race for All</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Modal -->
+  <div id="customModal" class="modal">
+    <div class="modal-content">
+      <p id="modalMessage"></p>
+      <button onclick="closeModal()">OK</button>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmationModal" class="modal">
+    <div class="modal-content">
+      <p>¿Estas seguro que quieres finalizar la carrera?</p>
+      <button onclick="confirmEndRaceForAll()">Sí</button>
+      <button onclick="closeConfirmationModal()">No</button>
+    </div>
+  </div>
+
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const raceId = getQueryParam('id');
+    let participantes = [];
+    let participantesFinalizados = 0;
+
+    async function obtenerDatos() {
+      try {
+        console.log('Obteniendo datos para Race ID:', raceId);
+        participantes = await window.electronAPI.getParticipantes(raceId);
+        actualizarProgreso();
+      } catch (error) {
+        console.error('Error al obtener participantes:', error);
+      }
+    }
+
+    function actualizarProgreso() {
+      participantesFinalizados = participantes.filter(participante => participante.estado === 'Finalizado').length;
+      const totalParticipantes = participantes.length;
+      const progreso = (participantesFinalizados / totalParticipantes) * 100;
+      
+      document.getElementById('progressBar').style.width = `${progreso}%`;
+      document.getElementById('progressText').innerText = `${participantesFinalizados} of ${totalParticipantes}`;
+    }
+
+    function endRaceForParticipant() {
+      const participantNumber = parseInt(document.getElementById('participantInput').value);
+
+      if (isNaN(participantNumber)) {
+        openModal('Please enter a valid participant number.');
+        return;
+      }
+
+      const participante = participantes.find(p => p.nro === participantNumber);
+
+      if (!participante) {
+        openModal('Participant not found.');
+        return;
+      }
+
+      if (participante.estado === 'Finalizado') {
+        openModal('Este participante ya ha sido finalizado.');
+        return;
+      }
+      if (participante.estado === 'Listo') {
+        openModal('Falta iniciar la categoria del participante.');
+        return;
+      }
+
+      window.electronAPI
+        .finalizarParticipante(participante.id)
+        .then(() => {
+          participante.estado = 'Finalizado';
+          actualizarProgreso();
+          openModal(`Participant ${participantNumber} has been marked as finished.`);
+        })
+        .catch(error => {
+          console.error('Error ending race for participant:', error);
+          openModal('An error occurred while ending the race for this participant.');
+        });
+    }
+
+    function endRaceForAll() {
+      openConfirmationModal();
+    }
+
+    function confirmEndRaceForAll() {
+      window.electronAPI
+        .finalizarTodosParticipantes(raceId)
+        .then(() => {
+          participantes.forEach(p => p.estado = 'Finalizado');
+          actualizarProgreso();
+          openModal('All participants have been marked as finished.');
+        })
+        .catch(error => {
+          console.error('Error ending race for all participants:', error);
+          openModal('An error occurred while ending the race for all participants.');
+        });
+
+      closeConfirmationModal();
+    }
+
+    function openModal(message) {
+      document.getElementById('modalMessage').innerText = message;
+      document.getElementById('customModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('customModal').style.display = 'none';
+    }
+
+    function openConfirmationModal() {
+      document.getElementById('confirmationModal').style.display = 'flex';
+    }
+
+    function closeConfirmationModal() {
+      document.getElementById('confirmationModal').style.display = 'none';
+    }
+
+    async function goBack() {
+      
+      const categorias = await window.electronAPI.getCategorias(raceId);
+        
+      const todasComenzaron = categorias.every(categoria => categoria.comenzo === true);
+
+    // Redirige según si todas las categorías han comenzado o no
+      if (todasComenzaron) {
+          window.location.href = `administrar_carrera.html?id=${raceId}`;
+      } else {
+          window.location.href = `comenzar_carrera.html?id=${raceId}`;
+      }
+    }
+
+    function goToHome() {
+      window.location.href = 'index.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', obtenerDatos);
+  </script>
+</body>
+</html>
+
+
+

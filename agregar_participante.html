@@ -1,0 +1,127 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Galileo Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white justify-between group/design-root overflow-x-hidden px-8 py-6" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-[#111418] text-2xl font-bold leading-tight tracking-[-0.015em] flex-1 text-left">Add Participant</h2>
+        <div class="flex gap-4">
+          <button
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-[#637488] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="goBackToRaceDetails()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M216.49,127.51l-88-88a8,8,0,0,0-11.32,11.32L196.69,120H56a8,8,0,0,0,0,16H196.69l-79.51,79.51a8,8,0,1,0,11.32,11.32l88-88A8,8,0,0,0,216.49,127.51Z"></path>
+            </svg>
+            <span class="truncate">Back</span>
+          </button>
+          <button
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-[#1661b6] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="goToHomePage()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M128,24A104,104,0,1,0,232,128,104.118,104.118,0,0,0,128,24Zm40.49,117.79-36,36a8.001,8.001,0,0,1-11.31,0l-36-36a8,8,0,0,1,11.31-11.32L120,156.69V88a8,8,0,0,1,16,0v68.69l23.49-23.5a8,8,0,1,1,11.31,11.32Z"></path>
+            </svg>
+            <span class="truncate">Home</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Participant Form -->
+      <form class="flex flex-col gap-6">
+        <div class="grid grid-cols-2 gap-6">
+          <!-- Left Column -->
+          <div class="flex flex-col gap-4">
+            <div>
+              <label for="participantNumber" class="text-[#111418] text-sm font-bold">Participant Number</label>
+              <input id="participantNumber" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1661b6] focus:ring focus:ring-[#1661b6] focus:ring-opacity-50" />
+            </div>
+            <div>
+              <label for="name" class="text-[#111418] text-sm font-bold">Name</label>
+              <input id="name" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1661b6] focus:ring focus:ring-[#1661b6] focus:ring-opacity-50" />
+            </div>
+            <div>
+              <label for="dni" class="text-[#111418] text-sm font-bold">DNI</label>
+              <input id="dni" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1661b6] focus:ring focus:ring-[#1661b6] focus:ring-opacity-50" />
+            </div>
+            <div>
+              <label for="phone" class="text-[#111418] text-sm font-bold">Phone</label>
+              <input id="phone" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1661b6] focus:ring focus:ring-[#1661b6] focus:ring-opacity-50" />
+            </div>
+            <div>
+              <label for="birthdate" class="text-[#111418] text-sm font-bold">Birth Date</label>
+              <input id="birthdate" type="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1661b6] focus:ring focus:ring-[#1661b6] focus:ring-opacity-50" />
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="flex flex-col gap-4">
+            <div>
+              <label for="address" class="text-[#111418] text-sm font-bold">Address</label>
+              <input id="address" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1661b6] focus:ring focus:ring-[#1661b6] focus:ring-opacity-50" />
+            </div>
+            <div>
+              <label for="city" class="text-[#111418] text-sm font-bold">City</label>
+              <input id="city" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1661b6] focus:ring focus:ring-[#1661b6] focus:ring-opacity-50" />
+            </div>
+            <div>
+              <label for="category" class="text-[#111418] text-sm font-bold">Category</label>
+              <select id="category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1661b6] focus:ring focus:ring-[#1661b6] focus:ring-opacity-50">
+                <option>Select a category</option>
+                <option>Junior</option>
+                <option>Senior</option>
+                <option>Veteran</option>
+              </select>
+            </div>
+            <div>
+              <label for="gender" class="text-[#111418] text-sm font-bold">Gender</label>
+              <select id="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-[#1661b6] focus:ring focus:ring-[#1661b6] focus:ring-opacity-50">
+                <option>Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex gap-4 mt-8">
+          <button
+            type="submit"
+            class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 flex-1 bg-[#1661b6] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+            </svg>
+            <span class="truncate">Add Participant</span>
+          </button>
+
+          <button
+            type="button"
+            class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 flex-1 bg-[#637488] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="clearForm()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M216.49,127.51l-88-88a8,8,0,0,0-11.32,11.32L196.69,120H56a8,8,0,0,0,0,16H196.69l-79.51,79.51a8,8,0,1,0,11.32,11.32l88-88A8,8,0,0,0,216.49,127.51Z"></path>
+            </svg>
+            <span class="truncate">Clear</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

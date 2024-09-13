@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
+    <title>Start Categories</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+<body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white justify-between group/design-root overflow-x-hidden px-8 py-6" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+        <!-- Header with Back, Home, and Follow-Up Buttons -->
+        <div class="flex items-center justify-between mb-8 w-full flex-wrap">
+            <h2 class="text-[#111418] text-2xl font-bold leading-tight tracking-[-0.015em] flex-1 text-left">Start Categories</h2>
+            <div class="flex flex-wrap gap-2 items-center">
+                <button class="flex min-w-[84px] max-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#637488] text-white text-sm font-bold leading-normal tracking-[0.015em] shrink" onclick="goBack()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M216.49,127.51l-88-88a8,8,0,0,0-11.32,11.32L196.69,120H56a8,8,0,0,0,0,16H196.69l-79.51,79.51a8,8,0,1,0,11.32,11.32l88-88A8,8,0,0,0,216.49,127.51Z"></path>
+                    </svg>
+                    <span class="truncate">Volver Atrás</span>
+                </button>
+
+                <button class="flex min-w-[84px] max-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#ff6b6b] text-white text-sm font-bold leading-normal tracking-[0.015em] shrink" onclick="goToHome()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M218.83,105.17l-80-72a16,16,0,0,0-21.66,0l-80,72A8,8,0,0,0,44.83,117.17l7.17-6.45V208a16,16,0,0,0,16,16h32a8,8,0,0,0,8-8V168a8,8,0,0,1,8-8h32a8,8,0,0,1,8,8v48a8,8,0,0,0,8,8h32a16,16,0,0,0,16-16V110.72l7.17,6.45A8,8,0,0,0,218.83,105.17Z"></path>
+                    </svg>
+                    <span class="truncate">Volver a Inicio</span>
+                </button>
+
+                <button class="flex min-w-[84px] max-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#4caf50] text-white text-sm font-bold leading-normal tracking-[0.015em] shrink" onclick="goToTracking()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M128,24A104,104,0,1,0,232,128,104.12,104.12,0,0,0,128,24Zm0,192A88,88,0,1,1,216,128,88.1,88.1,0,0,1,128,216ZM156.69,104H152v-8a8,8,0,0,0-16,0v8H104a8,8,0,0,0,0,16h32v8a8,8,0,0,0,16,0v-8h4.69a8,8,0,0,0,0-16Z"></path>
+                    </svg>
+                    <span class="truncate">Seguimiento Carrera</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Categories List -->
+        <div id="categories-list" class="flex flex-col gap-6">
+            <!-- Las categorías se agregarán aquí dinámicamente -->
+        </div>
+
+        <!-- Start Button -->
+        <div class="flex justify-center mt-8">
+            <button class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-6 flex-1 bg-[#1661b6] text-white gap-2 text-lg font-bold leading-normal tracking-[0.015em]" onclick="startRace()">
+                <span class="truncate">Start Race</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Función para obtener el parámetro de la URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Obtener el ID de la carrera desde la URL
+        const raceId = getQueryParam('id');
+
+        // Obtener categorías desde la base de datos
+        async function fetchCategories() {
+            try {
+                const categories = await window.electronAPI.getCategorias(raceId);
+                renderCategories(categories);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+                alert('Failed to load categories.');
+            }
+        }
+
+        // Renderizar las categorías en el DOM y filtrar las que no han comenzado
+        function renderCategories(categories) {
+            const categoriesList = document.getElementById('categories-list');
+            categoriesList.innerHTML = ''; // Limpiar la lista antes de agregar
+
+            // Filtrar categorías que no han comenzado
+            const filteredCategories = categories.filter(category => !category.comenzo);
+            if(filteredCategories === null){
+                window.location.href = `finalizar_carrera.html?id=${raceId}`;
+            }
+            // Renderizar solo las categorías filtradas
+            filteredCategories.forEach(category => {
+                const categoryItem = document.createElement('div');
+                categoryItem.className = 'flex items-center justify-between bg-[#f9f9f9] p-4 rounded-lg border border-[#c3cdd5]';
+                categoryItem.innerHTML = `
+                    <div class="flex flex-col">
+                        <h3 class="text-[#111418] text-lg font-bold">${category.nombre}</h3>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" class="sr-only peer" data-category-id="${category.id}">
+                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#1661b6]"></div>
+                    </label>
+                `;
+                categoriesList.appendChild(categoryItem);
+            });
+        }
+
+        // Llamar a la función para cargar las categorías al cargar la página
+        fetchCategories();
+
+        // Función para iniciar la carrera seleccionada
+       // Función para iniciar la carrera seleccionada
+        async function startRace() {
+            console.log('Iniciando las categorías seleccionadas...');
+            const toggles = document.querySelectorAll('input[type="checkbox"]');
+            const selectedCategories = [];
+
+            // Recopila los IDs de las categorías seleccionadas
+            toggles.forEach((toggle) => {
+                if (toggle.checked) {
+                    selectedCategories.push(toggle.dataset.categoryId);
+                }
+            });
+
+            if (selectedCategories.length > 0) {
+                try {
+                    // Lógica para iniciar las categorías en el backend o base de datos
+                    for (const id of selectedCategories) {
+                        // Llama a la función que marca la categoría como comenzada en el backend
+                        await window.electronAPI.iniciarCategoria(id); // Asegúrate de que esta función exista y funcione correctamente
+                        console.log(`Categoría iniciada: ${id}`);
+                    }
+
+                    // Vuelve a cargar las categorías para reflejar los cambios
+                    await fetchCategories();
+                    //alert('Las categorías seleccionadas han sido iniciadas.');
+
+                } catch (error) {
+                    console.error('Error al iniciar las categorías:', error);
+                    alert('No se pudo iniciar las categorías seleccionadas.');
+                }
+            } else {
+                alert('Por favor, selecciona al menos una categoría.');
+            }
+        }
+
+
+        // Navegación a la página anterior
+        function goBack() {
+            window.location.href = `administrar_carrera.html?id=${raceId}`;
+        }
+
+        // Navegación a la pantalla de inicio
+        function goToHome() {
+            window.location.href = 'inicio.html'; // Cambiar por la URL de la pantalla de inicio
+        }
+
+        // Navegación a la pantalla de seguimiento de carrera
+        function goToTracking() {
+            setTimeout(() => {
+                window.location.href = `finalizar_carrera.html?id=${raceId}`; // Cambiar por la URL correcta de seguimiento de carrera
+        }, 100); // Pausa de 100ms para asegurar la actualización del DOM
+}
+    </script>
+</body>
+</html>

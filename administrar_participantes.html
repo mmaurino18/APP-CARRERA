@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+
+    <title>Galileo Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white justify-between group/design-root overflow-x-hidden px-8 py-6" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-[#111418] text-2xl font-bold leading-tight tracking-[-0.015em] flex-1 text-left">Manage Participants</h2>
+        <div class="flex gap-4">
+          <button
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-[#1661b6] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="goToAddParticipant()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+            </svg>
+            <span class="truncate">Add Participant</span>
+          </button>
+
+          <button
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-[#637488] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="goToRaceDetails()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M216.49,127.51l-88-88a8,8,0,0,0-11.32,11.32L196.69,120H56a8,8,0,0,0,0,16H196.69l-79.51,79.51a8,8,0,1,0,11.32,11.32l88-88A8,8,0,0,0,216.49,127.51Z"></path>
+            </svg>
+            <span class="truncate">Back</span>
+          </button>
+
+          <button
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-[#ff6b6b] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="goToHome()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M218.83,105.17l-80-72a16,16,0,0,0-21.66,0l-80,72A8,8,0,0,0,44.83,117.17l7.17-6.45V208a16,16,0,0,0,16,16h32a8,8,0,0,0,8-8V168a8,8,0,0,1,8-8h32a8,8,0,0,1,8,8v48a8,8,0,0,0,8,8h32a16,16,0,0,0,16-16V110.72l7.17,6.45A8,8,0,0,0,218.83,105.17Z"></path>
+            </svg>
+            <span class="truncate">Home</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Participant List -->
+      <div class="flex flex-col gap-4">
+        <!-- Example Participant Entry -->
+        <div class="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
+          <div class="flex flex-col">
+            <p class="text-[#111418] text-base font-medium">John Doe</p>
+            <p class="text-[#637488] text-sm">DNI: 12345678</p>
+            <p class="text-[#637488] text-sm">Category: Men Elite</p>
+          </div>
+          <button
+            class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#1661b6] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="editParticipant('12345678')"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M229.66,49.93,206.07,26.34a19.89,19.89,0,0,0-28.15,0L159.08,45.19,210.81,97l18.85-18.85A19.89,19.89,0,0,0,229.66,49.93Zm-73,22.6-128,128A8,8,0,0,0,28,206.34V228a8,8,0,0,0,8,8H49.66a8,8,0,0,0,5.66-2.34l128-128Z"></path>
+            </svg>
+            <span class="truncate">Edit</span>
+          </button>
+        </div>
+        <!-- Repeat the above block for each participant -->
+      </div>
+    </div>
+  </body>
+</html>

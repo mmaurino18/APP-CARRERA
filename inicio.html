@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link rel="stylesheet" as="style" onload="this.rel='stylesheet'"
+          href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" />
+    <title>Galileo Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+</head>
+<body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white justify-between group/design-root overflow-x-hidden" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+        <div class="flex items-center bg-white p-4 pb-2 justify-center">
+            <h2 class="text-[#111418] text-2xl font-bold leading-tight tracking-[-0.015em]">Races</h2>
+        </div>
+
+        <!-- Main content area for races -->
+        <div id="race-list" class="grid grid-cols-1 gap-4 bg-white px-4 py-3">
+            <!-- Aquí se generarán dinámicamente las carreras -->
+            <!-- Imagen por defecto cuando no hay carreras -->
+            <div id="default-image" class="flex justify-center items-center">
+                <img src="logo1.jpeg" alt="No Races" class="max-w-[300px] max-h-[300px]">
+            </div>
+        </div>
+
+        <script>
+            // Obtener la lista de carreras desde el main process
+            window.electronAPI.getCarreras().then(carreras => {
+                const raceList = document.getElementById('race-list');
+                const defaultImage = document.getElementById('default-image');
+                
+                // Ocultar imagen por defecto si hay carreras
+                if (carreras.length > 0) {
+                    defaultImage.style.display = 'none'; // Oculta la imagen si hay carreras
+                }
+
+                carreras.forEach(race => {
+                    const raceItem = document.createElement('div');
+                    raceItem.className = "flex flex-col gap-4 p-4 border rounded-lg bg-white shadow-md cursor-pointer";
+                    
+                    // Añadir un event listener para redirigir a la pantalla administrar_carrera.html
+                    raceItem.addEventListener('click', () => {
+                        window.location.href = `administrar_carrera.html?id=${race.id}`;
+                    });
+
+                    const nombre = document.createElement('p');
+                    nombre.className = "text-[#111418] text-lg font-medium leading-normal";
+                    nombre.textContent = race.nombre;
+
+                    const ciudad = document.createElement('p');
+                    ciudad.className = "text-[#637488] text-sm font-normal leading-normal";
+                    ciudad.textContent = race.ciudad;
+
+                    const fecha = document.createElement('p');
+                    fecha.className = "text-[#637488] text-sm font-normal leading-normal";
+                    fecha.textContent = new Date(race.fecha).toLocaleDateString(); // Formatea la fecha
+
+                    raceItem.appendChild(nombre);
+                    raceItem.appendChild(ciudad);
+                    raceItem.appendChild(fecha);
+                    
+                    raceList.appendChild(raceItem);
+                });
+            });
+        </script>
+
+        <!-- Footer with add race button -->
+        <div class="flex justify-center px-4 py-6">
+            <button
+                class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-14 px-6 flex-1 bg-[#1661b6] text-white gap-2 text-lg font-bold leading-normal tracking-[0.015em]"
+                onclick="window.location.href='agregar_carrera.html'"
+            >
+                <div class="text-white" data-icon="Plus" data-size="24px" data-weight="regular">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" fill="currentColor" viewBox="0 0 256 256">
+                        <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1-16-16h80V40a8,8,0,0,1,16-16v80h80A8,8,0,0,1,224,128Z"></path>
+                    </svg>
+                </div>
+                <span class="truncate">Add Race</span>
+            </button>
+        </div>
+    </div>
+</body>
+</html>
+
+
+

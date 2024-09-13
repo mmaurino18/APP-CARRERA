@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Lexend%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <title>Galileo Design</title>
+    <link rel="icon" type="image/x-icon" href="data:image/x-icon;base64," />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+      /* Styles for the custom modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+      .modal-content {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+      }
+      .modal button {
+        margin-top: 10px;
+        padding: 8px 16px;
+        border: none;
+        background: #1661b6;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white justify-between group/design-root overflow-x-hidden px-8 py-6" style='font-family: Lexend, "Noto Sans", sans-serif;'>
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-8">
+        <h2 class="text-[#111418] text-2xl font-bold leading-tight tracking-[-0.015em] flex-1 text-left">Race Details</h2>
+        <button
+          class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 bg-[#637488] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+          onclick="goBackToHome()"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+            <path d="M216.49,127.51l-88-88a8,8,0,0,0-11.32,11.32L196.69,120H56a8,8,0,0,0,0,16H196.69l-79.51,79.51a8,8,0,1,0,11.32,11.32l88-88A8,8,0,0,0,216.49,127.51Z"></path>
+          </svg>
+          <span class="truncate">Back to Home</span>
+        </button>
+      </div>
+
+      <!-- Race Information -->
+      <div id="race-info" class="flex flex-col gap-6">
+        <!-- Race details will be dynamically loaded here -->
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col gap-4 mt-8">
+        <!-- Botón de acción basado en el estado de la carrera -->
+        <div class="flex gap-4">
+          <button
+            id="race-action-button"
+            class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 flex-1 bg-[#16a34a] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="handleRaceAction()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path id="action-icon"></path>
+            </svg>
+            <span id="action-text" class="truncate">Start Race</span>
+          </button>
+
+          <button
+            class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 flex-1 bg-[#6366f1] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="uploadRaceData()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M208,176H192v40H64V176H48a16,16,0,0,1-16-16V128H56v32H200V128h24v32A16,16,0,0,1,208,176ZM128,8A8,8,0,0,0,120,16V88H84.28a8,8,0,0,0-5.66,13.66l43.31,43.31a8,8,0,0,0,11.32,0l43.31-43.31A8,8,0,0,0,171.72,88H136V16A8,8,0,0,0,128,8Z"></path>
+            </svg>
+            <span class="truncate">Upload File</span>
+          </button>
+        </div>
+
+        <!-- Manage Categories and Participants -->
+        <div class="flex gap-4 mt-4">
+          <button
+            class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 flex-1 bg-[#1661b6] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="manageCategories()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+            </svg>
+            <span class="truncate">Manage Categories</span>
+          </button>
+
+          <button
+            class="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-6 flex-1 bg-[#1661b6] text-white gap-2 text-base font-bold leading-normal tracking-[0.015em]"
+            onclick="manageParticipants()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor" viewBox="0 0 256 256">
+              <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+            </svg>
+            <span class="truncate">Manage Participants</span>
+          </button>
+        </div>
+      </div>
+      <div id="customModal" class="modal">
+        <div class="modal-content">
+          <p id="modalMessage"></p>
+          <button onclick="closeModal()">OK</button>
+        </div>
+      </div>
+    
+      <!-- Confirmation Modal -->
+      <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+          <p>¿Estas seguro que quieres finalizar la carrera?</p>
+          <button onclick="confirmDeleteRace()">Sí</button>
+          <button onclick="closeConfirmationModal()">No</button>
+        </div>
+    </div>
+
+    <script>
+      // Function to get query parameters from the URL
+      function getQueryParam(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+      }
+      function openModal(message) {
+        document.getElementById('modalMessage').innerText = message;
+        document.getElementById('customModal').style.display = 'flex';
+      }
+
+      function closeModal() {
+        document.getElementById('customModal').style.display = 'none';
+      }
+      function openConfirmationModal() {
+        document.getElementById('confirmationModal').style.display = 'flex';
+      }
+
+      function closeConfirmationModal() {
+        document.getElementById('confirmationModal').style.display = 'none';
+      }
+
+      // Function to fetch race details by ID
+      function fetchRaceDetails(id) {
+        window.electronAPI.getCarreraPorId(id).then(race => {
+          const raceInfo = document.getElementById('race-info');
+          raceInfo.innerHTML = `
+            <div class="flex flex-1 flex-col justify-start">
+              <div class="flex items-center justify-between mb-2">
+                <p class="text-[#111418] text-xl font-bold leading-normal">${race.nombre}</p>
+                <div class="flex gap-2">
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#16a34a] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em]"
+                    onclick="editRaceDetails()"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M229.66,77.66l-51.32-51.31a16.07,16.07,0,0,0-22.63,0L137.37,44,212,118.63l18.63-18.63A16.07,16.07,0,0,0,229.66,77.66ZM132,61.66,40,153.66V216H102.34L194.34,124Z"></path>
+                    </svg>
+                    <span class="truncate">Edit</span>
+                  </button>
+                  <button
+                    class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#dc2626] text-white gap-2 text-sm font-bold leading-normal tracking-[0.015em]"
+                    onclick="deleteRace()"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" fill="currentColor" viewBox="0 0 256 256">
+                      <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+                    </svg>
+                    <span class="truncate">Delete</span>
+                  </button>
+                </div>
+              </div>
+              <p class="text-[#637488] text-base font-normal leading-normal mb-1">${race.ciudad}</p>
+              <p class="text-[#637488] text-base font-normal leading-normal mb-1">${race.fecha}</p>
+              <p class="text-[#637488] text-base font-normal leading-normal">${race.kms} kms, ${race.vueltas} vueltas</p>
+            </div>
+          `;
+        }).catch(error => {
+          console.error('Error fetching race details:', error);
+        });
+      }
+      function confirmDeleteRace() {
+        window.electronAPI
+          .deleteRace(raceId)
+          .then(() => {
+            openModal('Se elimino la carrera correctamente.');
+          })
+          .catch(error => {
+            console.error('Error al eliminar la carrera:', error);
+            openModal('Hubo un error al eliminar la carrera.');
+          });
+
+        closeConfirmationModal();
+      }
+      // Function to update the action button based on the race status
+      function updateActionButton(status) {
+        const button = document.getElementById('race-action-button');
+        const text = document.getElementById('action-text');
+        const icon = document.getElementById('action-icon');
+
+        if (status === 'Creada') {
+          button.style.backgroundColor = '#16a34a'; // Verde
+          text.textContent = 'Start Race';
+          icon.setAttribute('d', 'M216,48H40A24,24,0,0,0,16,72V184a24,24,0,0,0,24,24H216a24,24,0,0,0,24-24V72A24,24,0,0,0,216,48ZM96,160a8,8,0,0,1-13.33,6.67l-40-32a8,8,0,0,1,0-13.34l40-32A8,8,0,0,1,96,96ZM176,160a8,8,0,0,1-13.33,6.67l-40-32a8,8,0,0,1,0-13.34l40-32A8,8,0,0,1,176,96Z');
+          button.onclick = startRace;
+        } else if (status === 'En Proceso') {
+          button.style.backgroundColor = '#eab308'; // Amarillo
+          text.textContent = 'Race Tracking';
+          icon.setAttribute('d', 'M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z');
+          button.onclick = trackRace;
+        } else if (status === 'Finalizada') {
+          button.style.backgroundColor = '#dc2626'; // Rojo
+          text.textContent = 'View Results';
+          icon.setAttribute('d', 'M216.49,127.51l-88-88a8,8,0,0,0-11.32,11.32L196.69,120H56a8,8,0,0,0,0,16H196.69l-79.51,79.51a8,8,0,1,0,11.32,11.32l88-88A8,8,0,0,0,216.49,127.51Z');
+          button.onclick = viewResults;
+        }
+      }
+
+      // Funciones de acción según el estado
+      function startRace() {
+        const raceId = getQueryParam('id');
+        if (raceId) {
+          window.electronAPI.iniciarCarrera(raceId).then(() => {
+            //const raceId = getQueryParam('id');
+            window.location.href = `comenzar_carrera.html?id=${raceId}`
+            alert('La carrera ha comenzado.');
+          }).catch(error => {
+            console.error('Error al iniciar la carrera:', error);
+          });
+        }
+      }
+
+      async function trackRace() {
+        const raceId = getQueryParam('id');
+        const categorias = await window.electronAPI.getCategorias(raceId);
+        
+        const todasComenzaron = categorias.every(categoria => categoria.comenzo === true);
+
+    // Redirige según si todas las categorías han comenzado o no
+        if (todasComenzaron) {
+            window.location.href = `finalizar_carrera.html?id=${raceId}`;
+        } else {
+            window.location.href = `comenzar_carrera.html?id=${raceId}`;
+        }
+      }
+
+      function viewResults() {
+        // Lógica para ver resultados de la carrera
+        const raceId = getQueryParam('id');
+        window.location.href = `generar_estadisticas.html?id=${raceId}`;
+        //alert('Visualización de resultados.');
+        
+      }
+
+      // Funciones de navegación y gestión
+      function goBackToHome() {
+        window.location.href = 'inicio.html';
+      }
+
+      function editRaceDetails() {
+        const raceId = getQueryParam('id');
+        if (raceId) {
+          window.location.href = `editar-carrera.html?id=${raceId}`;
+        }
+      }
+      function deleteRace() {
+        openConfirmationModal();
+      }
+      
+
+      function uploadRaceData() {
+        const raceId = getQueryParam('id');
+        window.location.href = `subir_datos_excel.html?id=${raceId}`
+      }
+
+      function manageCategories() {
+        alert('Managing categories...');
+      }
+
+      function manageParticipants() {
+        alert('Managing participants...');
+      }
+
+      // Al cargar, obtiene los detalles de la carrera y ajusta el botón según el estado
+      document.addEventListener('DOMContentLoaded', () => {
+        const raceId = getQueryParam('id');
+        if (raceId) {
+          fetchRaceDetails(raceId);
+          window.electronAPI.getCarreraPorId(raceId).then(race => {
+            updateActionButton(race.estado);
+          }).catch(error => {
+            console.error('Error fetching race state:', error);
+          });
+        }
+      });
+    </script>
+</body>
+</html>
+
+
+
